@@ -1,16 +1,7 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# 1
-
-
 import pandas as pd
 import numpy as np
 
-# 2
-
-
-
+#read the data
 original_data =pd.read_csv(
     "applicant.csv",
     names=[
@@ -22,10 +13,7 @@ original_data =pd.read_csv(
     na_values='?')
 original_data.head()
 
-
-# 3
-
-
+#plot the graph
 import matplotlib.pyplot as plt
 import math
 get_ipython().run_line_magic('matplotlib', 'inline')
@@ -47,39 +35,27 @@ plt.show()
 
 
 
-# 4
-
+#show data
 import sklearn.preprocessing as preprocessing
 le=preprocessing.LabelEncoder()
 original_data['Occupation']=le.fit_transform(original_data['Occupation'].astype(str))
 original_data.head()
 
 
-# 5
-
-
 original_data['Target']=le.fit_transform(original_data['Target'].astype(str))
 original_data.tail()
 
-
-# 6
-
+#show the graph
 original_data.groupby('Education-Num').Target.mean().plot(kind='bar')
 plt.show()
 
-# 7
-
-
-
+#train test data
 from sklearn.model_selection import train_test_split
 X=original_data[['Education-Num','Occupation']]
 Y=original_data['Target']
 X_train,x_test,Y_train,y_test=train_test_split(X,Y,test_size=0.2,random_state=0)
 
-# 8
-
-
-
+#train the model using SVM classifier (SVC)
 from sklearn.svm import SVC
 classifier=SVC()
 classifier.fit(X_train,Y_train)
@@ -87,45 +63,27 @@ score=classifier.score(x_test,y_test)
 print(score)
 
 
-# 9
-
-
+#seaborn for heatmap charts
 import seaborn as sns
 corrmat=original_data.corr()
 f,ax=plt.subplots(figsize=(7,7))
 sns.heatmap(corrmat,vmax=.8, square=True);
 plt.show()
 
-
-# 10
-
-
 original_data['Race']=le.fit_transform(original_data['Race'].astype(str))
 original_data['Gender']=le.fit_transform(original_data['Gender'].astype(str))
 original_data['Marital Status']=le.fit_transform(original_data['Marital Status'].astype(str))
 original_data['Education']=le.fit_transform(original_data['Education'].astype(str))
-
-
-# 11
-
-
 corrmat=original_data.corr()
 f,ax=plt.subplots(figsize=(7,7))
 sns.heatmap(corrmat,vmax=.8, square=True);
 plt.show()
 
-
-# 12
-
-
 f,ax=plt.subplots(figsize=(7,7))
 sns.heatmap(corrmat,vmax=.8,square=True,annot=True,fmt='.2f')
 plt.show()
 
-# 13
-
-
-
+#score the model
 X=original_data[['Education-Num','Occupation','Age','Gender']]
 Y=original_data['Target']
 X_train,x_test,Y_train,y_test=train_test_split(X,Y,test_size=0.2,random_state=0)
@@ -135,26 +93,12 @@ score=classifier.score(x_test,y_test)
 print(score)
 
 
-# 14
-
-
 classifier =SVC(kernel='rbf', C=1.0)
 classifier.fit(X_train,Y_train)
 score=classifier.score(x_test,y_test)
 print(score)
 
-
-# 15
-
-
 classifier =SVC(kernel='linear', C=10.0)
 classifier.fit(X_train,Y_train)
 score=classifier.score(x_test,y_test)
 print(score)
-
-
-
-
-
-
-
